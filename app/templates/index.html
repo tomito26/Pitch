@@ -5,53 +5,79 @@
 
 {% block styles%}
 {{ super() }}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
 {% endblock %}
 <!-- Content block -->
 {% block content %}
-<div class="container">
+<section id="index">
+        <!-- <div class="container" style="background-color:gainsboro; padding:20px; margin-top:0px; padding-top:40px; padding-bottom:400px;">
+                <div class="row" style="text-align:center; font-size:30px;">
+                    <span style="font-size:40px; font-family: 'Akronim', cursive;">Your Journy Hegins Here</span>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3"> 
+                            <a href="{{url_for('main.interview')}}" style="font-family: 'Joti One', cursive; font-size:20px;">
+                                <br>
+                                Inteview Pitches
+                            </a>
+                            <br>
+                            <a href="{{url_for('main.pick_up_line')}}" style="font-family: 'Joti One', cursive; font-size:20px;">
+                                <br>
+                                Pick Up Lines
+                            </a>
+                            <br>
+                            <a href="{{url_for('main.promotion')}}" style="font-family: 'Joti One', cursive; font-size:20px;">
+                                <br>
+                                Promotion Pitches
+                            </a>
+                            <br>
+                            <a href="{{url_for('main.product')}}" style="font-family: 'Joti One', cursive; font-size:20px;">
+                                <br>
+                                Product Pitches
+                            </a>
+                            <br>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
+                    <div class="panel style="style="border: 3px solid #f2f2f2; padding:20px; margin-top:10px;">
+                        <p style="font-family: 'Bellefair', serif; font-size:20px;">Write your one minute in any of the categories to the left and let other user vote and comment on it.Please also feel free to comment and vote on pitches posted by other people </p>
+                        
+                        <div style="text-align:center;">
+                            <a href="{{url_for('main.new_pitch')}}">
+                                <br>
+                                <span >Add a new Pitch</span>
+                            </a>
+        
+                        </div>
+                    
+                    </div>
+                    
+                </div>
+            <hr>
+                <div class="all-pitches">
+                    <span style="color:gainsboro;">All pitches are displayed below</span>
+                        <hr> 
+                        {{macro.displayPitches(pitches)}}
+                    
+        
+                </div>
+        
+            </div> -->
+            <div class="container">
+                    <div class="icon-bar d-flex  justify-content-center">
+                            <a href="https://www.facebook.com/titus.ouko.3" class="facebook" target="_blank"><i class="fa fa-facebook fa-2x text-light mr-3"></i></a> 
+                            <a href="https://twitter.com/OpiyoMay" class="twitter" target="_blank"><i class="fa fa-twitter fa-2x text-light mr-3"></i></a> 
+                            <a href="https://www.linkedin.com/in/titus-opiyo-1bb160142/?msgConversationId=6555052916351336448&msgOverlay=true" class="linkedin" target="_blank"><i class="fa fa-linkedin fa-2x text-light"></i></a>
+                        </div>
+                <div class="row">
+                        <div class="col-md-d  w-75 my-auto text-center text-light head ">
+                                <h1>Grow Your Idea With High-Performance Websites & Expert Digital Marketing To The Investors</h1>
+                                <h3>Feel free to look at other people pitches and leave a comment. Also you can sign in and table your pitch</h3>
+                        </div>
+                </div>
+                
+            </div>
 
-    <form>
-        <input type="text" name="movie_query" placeholder="Search for a Movie" class="form-control">
-        <input type="submit" value="Submit" class="btn btn-primary">
-    </form>
-
-</div>
-
-<!-- Popular movie -->
-<div class="row">
-    <div class="container">
-        <h3> Popular Movies</h3>
-        <ul>
-            {{ macro.displayMovieList(popular)}}
-        </ul>
-    </div>
-
-</div>
-<!-- Upcoming movie  -->
-<div class="row">
-    <div class="container">
-        <h3> Upcoming Movies </h3>
-        <ul>
-            {{ macro.displayMovieList(upcoming)}}
-        </ul>
-    </div>
-
-</div>
-
-<!-- Now showing movie -->
-<div class="row">
-    <div class="container">
-        <h3>Now Showing</h3>
-        <ul>
-            {{ macro.displayMovieList(now_showing_movie)}}
-        </ul>
-    </div>
-
-</div>
-
-</div>
-
+</section>
 
 
 {% endblock%}
