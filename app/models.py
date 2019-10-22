@@ -82,3 +82,32 @@ class Pitch(db.Model):
 #         return f'User {self.name}'
 
 
+class Comment(db.Model):
+
+    __tablename__ = 'comments'
+
+    id = db.Column(db.Integer,primary_key = True)
+    comment = db.Column(db.String)
+    image_path = db.Column(db.String)
+    pitch_id = db.Column(db.Integer,db.ForeignKey('pitch.id'))
+    posted = db.Column(db.DateTime,default=datetime.utcnow)
+    username = db.Column(db.String)
+
+
+    def save_comments(self):
+        db.session.add(self)
+        db.session.commit()
+        
+
+    @classmethod
+    def get_comments(cls,id):
+        comments = Comment.query.filter_by(pitch_id=id).all()
+        return comments
+
+
+    @classmethod
+    def clear_(cls):
+        Comment.all_comments.clear()
+
+   
+
