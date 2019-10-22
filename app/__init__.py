@@ -16,7 +16,7 @@ login_manager.login_view = 'auth.login'
 photos = UploadSet('photos', IMAGES)
 mail = Mail()
 simple = SimpleMDE()
-
+ 
 
 def create_app(config_name):
 
@@ -40,8 +40,7 @@ def create_app(config_name):
 
     #Setting config
 
-    from .requests import configure_request
-    configure_request(app)
+    
 
     #configure UploadSet
     configure_uploads(app,photos)
