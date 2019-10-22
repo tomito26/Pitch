@@ -5,11 +5,8 @@ class Config:
     General configuration parent class
     '''
     
-    MOVIE_API_BASE_URL ='https://api.themoviedb.org/3/movie/{}?api_key={}'
-
-    MOVIE_API_KEY = os.environ.get('MOVIE_API_KEY')
     SECRET_KEY = os.environ.get('SECRET_KEY')
-    
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:@Sopiti1221@localhost/pitch'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOADED_PHOTOS_DEST = 'app/static/photos'
 
@@ -37,10 +34,12 @@ class ProdConfig(Config):
     Args:
         Config: The parent configuration class with general configuration settings
     '''
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+
     pass
 
 class TestConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:@Sopiti1221@localhost/watchlist_test'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:@Sopiti1221@localhost/pitch_test'
 
 class DevConfig(Config):
     '''
@@ -49,7 +48,7 @@ class DevConfig(Config):
     Args:
         Config: The parent configuration class with general configuration settings
     '''
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:@Sopiti1221@localhost/watchlist'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:@Sopiti1221@localhost/pitch'
     DEBUG = True
 
 config_options = {
