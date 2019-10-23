@@ -129,3 +129,45 @@ class PitchCategory(db.Model):
         '''
         categories = PitchCategory.query.all()
         return categories
+
+class Downvote(db.Model):
+    __tablename__ = 'downvotes'
+    '''
+    Function that stores user votes
+    '''
+    id = db.Column(db.Integer, primary_key=True)
+    pitch_id = db.Column(db.Integer,db.ForeignKey('pitch.id'))
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+
+    def save_votes(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_votes(cls, id):
+        downvote = Downvote.query.filter_by(pitch_id=id).all()
+        return upvote
+
+    def __repr__(self):
+        return f'{self.id_user}:{self.pitch_id}'
+
+class Upvote(db.Model):
+    __tablename__ = 'upvotes'
+    '''
+    Function that stores user votes
+    '''
+    id = db.Column(db.Integer, primary_key=True)
+    pitch_id = db.Column(db.Integer,db.ForeignKey('pitch.id'))
+    user_id =  db.Column(db.Integer,db.ForeignKey('users.id'))
+
+    def save_votes(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_votes(cls, id):
+        upvote = Upvote.query.filter_by(pitch_id=id).all()
+        return upvote
+
+    def __repr__(self):
+        return f'{self.id_user}:{self.pitch_id}'    
