@@ -14,6 +14,7 @@ This is an app that allows users to create,submit, pitches based on categories
 * clickable categories for pitches
 * posting and even commenting on other pitches
 * user login/registration
+j
 
 
 ## Behavior Driven Development
