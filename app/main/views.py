@@ -1,8 +1,8 @@
 from flask import render_template,redirect,url_for, abort,request
 from . import main
 
-from .forms import CommentsForm ,UpdateProfile, PitchForm, UpvoteForm
-from ..models import User,Pitch, Comment,PitchCategory
+from .forms import CommentsForm ,UpdateProfile, PitchForm, UpvoteForm, DownvoteForm
+from ..models import User,Pitch, Comment,PitchCategory,Downvote,Upvote
 from flask_login import login_required, current_user
 from .. import db, photos
 import markdown2
@@ -22,6 +22,18 @@ def index():
 
     return render_template('index.html', title = title, pitches= pitches)
 
+@main.route('/all')
+def all():
+    '''
+    View root page function that returns the index page and its data
+    '''
+    title = 'Home - Welcome this is where you belong'
+
+    
+    pitches= Pitch.get_all_pitches() 
+    # upvotes = Upvote.get_all_upvotes(pitch_id=Pitch.id) 
+
+    return render_template('all.html', title = title, pitches= pitches)
 
 @main.route('/inteview/pitches/')
 def interview():
@@ -86,7 +98,7 @@ def new_pitch():
     Function that creates new pitches
     '''
     form = PitchForm()
-
+    my_upvotes = Upvote.query.filter_by(pitch_id = Pitch.id)
 
     if category is None:
         abort( 404 )
@@ -97,7 +109,7 @@ def new_pitch():
         new_pitch= Pitch(pitch= pitch, category_id= category_id)
 
         new_pitch.save_pitch()
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.all'))
 
     return render_template('new_pitch.html', new_pitch_form= form, category= category)
 
@@ -122,7 +134,7 @@ def new_comment(id):
     if form.validate_on_submit():
         new_comment = Comment(pitch_id =id,comment=form.comment.data,username=current_user.username)
         new_comment.save_comments()
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.all'))
     
     return render_template('new_comment.html',comment_form=form, vote_form= vote_form)
 
@@ -182,4 +194,33 @@ def test(id):
     '''
     pitch =Pitch.query.filter_by(id=1).first()
     return render_template('test.html',pitch= pitch)
+
+@main.route('/pitch/upvote/<int:pitch_id>/upvote', methods = ['GET', 'POST'])
+@login_required
+def upvote(pitch_id):
+    pitch = Pitch.query.get(pitch_id)
+    user = current_user
+    pitch_upvotes = Upvote.query.filter_by(pitch_id= pitch_id)
+    
+    if Upvote.query.filter(Upvote.user_id==user.id,Upvote.pitch_id==pitch_id).first():
+        return  redirect(url_for('main.all'))
+
+
+    new_upvote = Upvote(pitch_id=pitch_id, user = current_user)
+    new_upvote.save_votes()
+    return redirect(url_for('main.all'))
+
+@main.route('/pitch/downvote/<int:pitch_id>/downvote', methods = ['GET', 'POST'])
+@login_required
+def downvote(pitch_id):
+    pitch = Pitch.query.get(pitch_id)
+    user = current_user
+    pitch_downvotes = Downvote.query.filter_by(pitch_id= pitch_id)
+    
+    if Downvote.query.filter(Downvote.user_id==user.id,Downvote.pitch_id==pitch_id).first():
+        return  redirect(url_for('main.all'))
+
+    new_downvote = Downvote(pitch_id=pitch_id, user = current_user)
+    new_downvote.save_votes()
+    return redirect(url_for('main.all'))
 
