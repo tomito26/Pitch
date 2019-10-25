@@ -1,7 +1,7 @@
 from datetime import datetime
 from . import db
 from werkzeug.security import generate_password_hash,check_password_hash
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 from . import login_manager
 
 @login_manager.user_loader
@@ -19,6 +19,8 @@ class User(UserMixin, db.Model):
     profile_pic_path = db.Column(db.String())
     pass_secure = db.Column(db.String(255))
     pitch = db.relationship('Pitch',backref = 'user',lazy = "dynamic")
+    downvotes = db.relationship('Downvote',backref = 'user',lazy = "dynamic")
+    upvotes = db.relationship('Upvote',backref = 'user',lazy = "dynamic")
     
     @property
     def password(self):
@@ -46,6 +48,8 @@ class Pitch(db.Model):
     date = db.Column(db.DateTime,default=datetime.utcnow)
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
     comments = db.relationship('Comment',backref = 'pitch',lazy="dynamic")
+    upvotes = db.relationship('Upvote', backref = 'pitch', lazy = 'dynamic')
+    downvotes = db.relationship('Downvote', backref = 'pitch', lazy = 'dynamic')
         
 
     def save_pitch(self):
@@ -136,6 +140,7 @@ class Downvote(db.Model):
     Function that stores user votes
     '''
     id = db.Column(db.Integer, primary_key=True)
+    downvote = db.Column(db.Integer,default=1)
     pitch_id = db.Column(db.Integer,db.ForeignKey('pitch.id'))
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
 
@@ -144,9 +149,14 @@ class Downvote(db.Model):
         db.session.commit()
 
     @classmethod
+    def add_downvotes(cls,id):
+        downvote_pitch = Downvote(user = current_user, pitch_id=id)
+        downvote_pitch.save_downvotes()
+
+    @classmethod
     def get_votes(cls, id):
         downvote = Downvote.query.filter_by(pitch_id=id).all()
-        return upvote
+        return downvote
 
     def __repr__(self):
         return f'{self.id_user}:{self.pitch_id}'
@@ -157,12 +167,19 @@ class Upvote(db.Model):
     Function that stores user votes
     '''
     id = db.Column(db.Integer, primary_key=True)
+    upvote = db.Column(db.Integer,default=1)
     pitch_id = db.Column(db.Integer,db.ForeignKey('pitch.id'))
     user_id =  db.Column(db.Integer,db.ForeignKey('users.id'))
 
     def save_votes(self):
         db.session.add(self)
         db.session.commit()
+
+    @classmethod
+    def add_upvotes(cls,id):
+        upvote_pitch = Upvote(user = current_user, pitch_id=id)
+        upvote_pitch.save_upvotes()
+
 
     @classmethod
     def get_votes(cls, id):

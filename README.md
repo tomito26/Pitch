@@ -7,7 +7,7 @@
 This is an app that allows users to create,submit, pitches based on categories
 
 ## Project live site
-  This is the live .[ Click for the demo](https://newshighlight1.herokuapp.com/)
+  This is the live .[ Click for the demo](https://pitch0.herokuapp.com/)
  ![Image](app/static/photos/Selection_031.png)
 ## Features
 * landing page containing wecoming message
