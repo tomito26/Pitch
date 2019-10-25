@@ -4,7 +4,7 @@ from wtforms.validators import Required
 
 class CommentsForm(FlaskForm):
     comment = TextAreaField('Comment', validators=[Required()])
-    vote=RadioField('default field arguments', choices=[('1', 'UpVote'), ('1', 'DownVote')])
+    # vote=RadioField('default field arguments', choices=[('1', 'UpVote'), ('1', 'DownVote')])
     submit = SubmitField('SUBMIT')
 
 class PitchForm(FlaskForm):
@@ -17,6 +17,13 @@ class UpvoteForm(FlaskForm):
     Class to create a wtf form for upvoting a pitch
     '''
     submit = SubmitField('Upvote')
+
+class DownvoteForm(FlaskForm):
+    '''
+    Class to create a wtf form for downvoting a pitch
+    '''
+    submit = SubmitField('Downvote')
+
 
 class UpdateProfile(FlaskForm):
     bio = TextAreaField('Tell us about you.',validators = [Required()])
